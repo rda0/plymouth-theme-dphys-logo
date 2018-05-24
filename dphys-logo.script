@@ -50,7 +50,7 @@ debugsprite_bottom = Sprite();
 debugsprite_medium = Sprite();
 
 # Ubuntu Font
-ubuntufont = "Ubuntu, sans-serif 14";
+ubuntufont = "DINPro-Bold, Ubuntu, sans-serif 14";
 ubuntualignment = "center";
 
 
@@ -183,8 +183,11 @@ logo_filename = "logo.png";
 black_pixel_filename = "black_pixel.png";
 logo_org_filename = "logo_org.png";
 background_filename = "background.png";
-progress_dot_off_filename = "progress-dot-off.png";
-progress_dot_on_filename = "progress-dot-on.png";
+#progress_dot_off_filename = "progress-dot-off.png";
+#progress_dot_on_filename = "progress-dot-on.png";
+#progress_dot_off_filename = "progress-dot-circle.png";
+progress_dot_off_filename = "progress-dot-transparent.png";
+progress_dot_on_filename = "progress-dot-off.png";
 password_field_filename = "password-field.png";
 question_field_filename = "password-field.png";
 
@@ -214,7 +217,7 @@ panel.z = 10;
 panel.sprite.SetX (panel.x);
 panel.sprite.SetY (panel.y);
 panel.sprite.SetZ (panel.z);
-panel.sprite.SetOpacity (0.5);
+panel.sprite.SetOpacity (0.65);
 
 logo.image = Image(logo_filename);
 logo.sprite = Sprite();
