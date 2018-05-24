@@ -27,7 +27,7 @@ ln -s /usr/share/plymouth/themes/ubuntu-logo/ubuntu-logo.plymouth /etc/alternati
 start the daemon, show splash screen:
 
 ```
-plymouthd --tty=/dev/tty1
+plymouthd --tty=/dev/tty1 --kernel-command-line="quiet splash"
 plymouth show-splash
 ```
 
