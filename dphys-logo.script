@@ -1,6 +1,7 @@
 #  ubuntu-logo.script - boot splash plugin
 # 
 #  Copyright (C) 2009 Canonical Ltd.
+#  Copyright (C) 2018 ETH Zurich
 # 
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -24,6 +25,8 @@
 #
 #  Question stuff written by: Markus Waas <mail@markuswaas.de>
 #
+#  DPHYS stuff written by: Sven Mäder <maeder@phys.ethz.ch>
+#
 # 
 
 # Set the text colour in (rgb / 256)
@@ -31,10 +34,10 @@ text_colour.red = 1.0;
 text_colour.green = 1.0;
 text_colour.blue = 1.0;
 
-# Tinted text #988592
-tinted_text_colour.red = 0.59;
-tinted_text_colour.green = 0.52;
-tinted_text_colour.blue = 0.57;
+# Tinted text - (message text color)
+tinted_text_colour.red = 1.0;
+tinted_text_colour.green = 1.0;
+tinted_text_colour.blue = 1.0;
 
 # Action Text - #ffffff - RGB 255 255 255
 action_text_colour.red = 1.0;
@@ -47,7 +50,7 @@ debugsprite_bottom = Sprite();
 debugsprite_medium = Sprite();
 
 # Ubuntu Font
-ubuntufont = "Ubuntu, sans-serif 11";
+ubuntufont = "Ubuntu, sans-serif 14";
 ubuntualignment = "center";
 
 
@@ -95,7 +98,7 @@ fun TextYOffset() {
     local.min_height;
 
     # Put the 1st line below the logo + some spacing 
-    y = logo.y + logo.height + (progress_indicator.bullet_height * 7 ); # + logo_spacing;
+    y = logo.y + logo.height + (progress_indicator.bullet_height * 7.0 ); # + logo_spacing;
 
     text_height = first_line_height * 7.5;
 
@@ -171,39 +174,79 @@ fun StringToInteger (str) {
 # New background colour
 # #2c001e --> 0.16, 0.00, 0.12
 #
-Window.SetBackgroundTopColor (0.16, 0.00, 0.12);     # Nice colour on top of the screen fading to
-Window.SetBackgroundBottomColor (0.16, 0.00, 0.12);  # an equally nice colour on the bottom
+Window.SetBackgroundTopColor (0.00, 0.00, 0.00);     # Nice colour on top of the screen fading to
+Window.SetBackgroundBottomColor (0.00, 0.00, 0.00);  # an equally nice colour on the bottom
 
-bits_per_pixel = Window.GetBitsPerPixel ();
-if (bits_per_pixel == 4) {
-    logo_filename = "ubuntu-logo16.png";
-    progress_dot_off_filename = "progress-dot-off16.png";
-    progress_dot_on_filename = "progress-dot-on16.png";
-    password_field_filename = "password-field16.png";
-    question_field_filename = "password-field16.png";
-} else {
-    logo_filename = "ubuntu-logo.png";
-    progress_dot_off_filename = "progress-dot-off.png";
-    progress_dot_on_filename = "progress-dot-on.png";
-    password_field_filename = "password-field.png";
-    question_field_filename = "password-field.png";
-}
+#bits_per_pixel = Window.GetBitsPerPixel ();
 
-logo.image = Image (logo_filename);
-logo.sprite = Sprite ();
-logo.sprite.SetImage (logo.image);
-logo.width = logo.image.GetWidth ();
-logo.height = logo.image.GetHeight ();
-logo.x = Window.GetX () + Window.GetWidth () / 2 - logo.width  / 2;
-logo.y = Window.GetY () + Window.GetHeight () / 2 - logo.height;
+logo_filename = "logo.png";
+black_pixel_filename = "black_pixel.png";
+logo_org_filename = "logo_org.png";
+background_filename = "background.png";
+progress_dot_off_filename = "progress-dot-off.png";
+progress_dot_on_filename = "progress-dot-on.png";
+password_field_filename = "password-field.png";
+question_field_filename = "password-field.png";
+
+background.source_image = Image(background_filename);
+background.image = background.source_image.Scale(Window.GetWidth(), Window.GetHeight());
+background.sprite = Sprite();
+background.sprite.SetImage(background.image);
+background.width = background.image.GetWidth();
+background.height = background.image.GetHeight();
+background.x = Window.GetX() + ( Window.GetWidth() - background.width ) / 2;
+background.y = Window.GetY() + ( Window.GetHeight() - background.height ) / 2;
+background.z = 0;
+background.sprite.SetX(background.x);
+background.sprite.SetY(background.y);
+background.sprite.SetZ(background.z);
+background.sprite.SetOpacity (1);
+
+black.source_image = Image(black_pixel_filename);
+panel.image = black.source_image.Scale(800, 450);
+panel.sprite = Sprite();
+panel.sprite.SetImage(panel.image);
+panel.width = panel.image.GetWidth();
+panel.height = panel.image.GetHeight();
+panel.x = Window.GetX() + ( Window.GetWidth() - panel.width ) / 2;
+panel.y = Window.GetY() + ( Window.GetHeight() - panel.height ) / 2;
+panel.z = 10;
+panel.sprite.SetX (panel.x);
+panel.sprite.SetY (panel.y);
+panel.sprite.SetZ (panel.z);
+panel.sprite.SetOpacity (0.5);
+
+logo.image = Image(logo_filename);
+logo.sprite = Sprite();
+logo.sprite.SetImage(logo.image);
+logo.width = logo.image.GetWidth();
+logo.height = logo.image.GetHeight();
+#logo.x = Window.GetX() + Window.GetWidth() / 2 - logo.width  / 2;
+#logo.y = Window.GetY() + Window.GetHeight() / 2 - logo.height;
+logo.x = Window.GetX() + Window.GetWidth() / 2 - logo.width  / 2;
+logo.y = panel.y + panel.height / 4 - logo.height / 2;
 logo.z = 1000;
-logo.sprite.SetX (logo.x);
-logo.sprite.SetY (logo.y);
-logo.sprite.SetZ (logo.z);
+logo.sprite.SetX(logo.x);
+logo.sprite.SetY(logo.y);
+logo.sprite.SetZ(logo.z);
 logo.sprite.SetOpacity (1);
 
 # Spacing below the logo - in pixels
 logo_spacing = logo.height * 4;
+
+org.image = Image(logo_org_filename);
+org.sprite = Sprite();
+org.sprite.SetImage(org.image);
+org.width = org.image.GetWidth();
+org.height = org.image.GetHeight();
+#org.x = panel.x + 40;
+org.x = Window.GetX() + Window.GetWidth() / 2 - org.width / 2;
+org.y = panel.y + panel.height - org.height - 60;
+org.z = 1000;
+org.sprite.SetX(org.x);
+org.sprite.SetY(org.y);
+org.sprite.SetZ(org.z);
+org.sprite.SetOpacity (1);
 
 message_notification[0].image = ImageToTintedText ("");
 message_notification[1].image = ImageToTintedText ("");
@@ -218,8 +261,11 @@ progress_indicator.bullet_height = progress_indicator.bullet_off.GetHeight ();
 progress_indicator.bullet_hspacing = progress_indicator.bullet_width * 1.1;
 progress_indicator.width = progress_indicator.bullet_width * 5;
 progress_indicator.height = progress_indicator.bullet_height;
-progress_indicator.y = logo.y + logo.height + (logo.height / 4);
-progress_indicator.x = Window.GetX () + Window.GetWidth () / 2 - progress_indicator.width / 2; # logo.x + 26;
+#progress_indicator.y = logo.y + logo.height + (logo.height / 4);
+#progress_indicator.y = logo.y + logo.height + 100;
+#progress_indicator.x = Window.GetX () + Window.GetWidth () / 2 - progress_indicator.width / 2; # logo.x + 26;
+progress_indicator.x = Window.GetX() + ( Window.GetWidth() - progress_indicator.width ) / 2;
+progress_indicator.y = Window.GetY() + ( Window.GetHeight() - progress_indicator.height ) / 2;
 
 # use a fixed string with ascending and descending stems to calibrate the
 # bounding box for the first message, so the messages below don't move up
