@@ -267,7 +267,9 @@ logo_left.sprite.SetY(logo_left.y);
 logo_left.sprite.SetZ(logo_left.z);
 logo_left.sprite.SetOpacity (1);
 
-logo_right.image = Image(logo_right_filename);
+logo_right_source_image = Image(logo_right_filename);
+logo_right.image = logo_right_source_image.Scale(130, 21);
+#logo_right.image = Image(logo_right_filename);
 logo_right.sprite = Sprite();
 logo_right.sprite.SetImage(logo_right.image);
 logo_right.width = logo_right.image.GetWidth();
