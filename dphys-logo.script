@@ -265,7 +265,7 @@ logo_left.z = 1001;
 logo_left.sprite.SetX(logo_left.x);
 logo_left.sprite.SetY(logo_left.y);
 logo_left.sprite.SetZ(logo_left.z);
-logo_left.sprite.SetOpacity (1);
+logo_left.sprite.SetOpacity (0.85);
 
 logo_right_source_image = Image(logo_right_filename);
 logo_right.image = logo_right_source_image.Scale(130, 21);
@@ -280,7 +280,7 @@ logo_right.z = 1002;
 logo_right.sprite.SetX(logo_right.x);
 logo_right.sprite.SetY(logo_right.y);
 logo_right.sprite.SetZ(logo_right.z);
-logo_right.sprite.SetOpacity (1);
+logo_right.sprite.SetOpacity (0.85);
 
 message_notification[0].image = ImageToTintedText ("");
 message_notification[1].image = ImageToTintedText ("");
