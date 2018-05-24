@@ -179,7 +179,10 @@ Window.SetBackgroundBottomColor (0.00, 0.00, 0.00);  # an equally nice colour on
 
 #bits_per_pixel = Window.GetBitsPerPixel ();
 
-logo_filename = "logo.png";
+#logo_filename = "logo.png";
+logo_filename = "logo_installing_software.png";
+logo_left_filename = "logo_dphys.png";
+logo_right_filename = "logo_eth.png";
 black_pixel_filename = "black_pixel.png";
 logo_org_filename = "logo_org.png";
 background_filename = "background.png";
@@ -237,19 +240,45 @@ logo.sprite.SetOpacity (1);
 # Spacing below the logo - in pixels
 logo_spacing = logo.height * 4;
 
-org.image = Image(logo_org_filename);
-org.sprite = Sprite();
-org.sprite.SetImage(org.image);
-org.width = org.image.GetWidth();
-org.height = org.image.GetHeight();
-#org.x = panel.x + 40;
-org.x = Window.GetX() + Window.GetWidth() / 2 - org.width / 2;
-org.y = panel.y + panel.height - org.height - 60;
-org.z = 1000;
-org.sprite.SetX(org.x);
-org.sprite.SetY(org.y);
-org.sprite.SetZ(org.z);
-org.sprite.SetOpacity (1);
+#org.image = Image(logo_org_filename);
+#org.sprite = Sprite();
+#org.sprite.SetImage(org.image);
+#org.width = org.image.GetWidth();
+#org.height = org.image.GetHeight();
+##org.x = panel.x + 40;
+#org.x = Window.GetX() + Window.GetWidth() / 2 - org.width / 2;
+#org.y = panel.y + panel.height - org.height - 60;
+#org.z = 1000;
+#org.sprite.SetX(org.x);
+#org.sprite.SetY(org.y);
+#org.sprite.SetZ(org.z);
+#org.sprite.SetOpacity (1);
+
+logo_left.image = Image(logo_left_filename);
+logo_left.sprite = Sprite();
+logo_left.sprite.SetImage(logo_left.image);
+logo_left.width = logo_left.image.GetWidth();
+logo_left.height = logo_left.image.GetHeight();
+logo_left.x = panel.x + 60;
+logo_left.y = panel.y + panel.height - logo_left.height - 60;
+logo_left.z = 1001;
+logo_left.sprite.SetX(logo_left.x);
+logo_left.sprite.SetY(logo_left.y);
+logo_left.sprite.SetZ(logo_left.z);
+logo_left.sprite.SetOpacity (1);
+
+logo_right.image = Image(logo_right_filename);
+logo_right.sprite = Sprite();
+logo_right.sprite.SetImage(logo_right.image);
+logo_right.width = logo_right.image.GetWidth();
+logo_right.height = logo_right.image.GetHeight();
+logo_right.x = ( panel.x + panel.width ) - ( logo_right.width + 60 );
+logo_right.y = panel.y + panel.height - logo_right.height - 60;
+logo_right.z = 1002;
+logo_right.sprite.SetX(logo_right.x);
+logo_right.sprite.SetY(logo_right.y);
+logo_right.sprite.SetZ(logo_right.z);
+logo_right.sprite.SetOpacity (1);
 
 message_notification[0].image = ImageToTintedText ("");
 message_notification[1].image = ImageToTintedText ("");
