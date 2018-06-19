@@ -29,86 +29,60 @@
 #
 
 # Set the text colour in (rgb / 256)
-text_colour.red = 1.0;
-text_colour.green = 1.0;
-text_colour.blue = 1.0;
+text_color.red = 1.0;
+text_color.green = 1.0;
+text_color.blue = 1.0;
+text_color.alpha = 1.0;
 
-# Tinted text - (message text color)
-tinted_text_colour.red = 1.0;
-tinted_text_colour.green = 1.0;
-tinted_text_colour.blue = 1.0;
+log_color.red = 1.0;
+log_color.green = 1.0;
+log_color.blue = 1.0;
+log_color.alpha = 0.8;
 
-# Action Text - #ffffff - RGB 255 255 255
-action_text_colour.red = 1.0;
-action_text_colour.green = 1.0;
-action_text_colour.blue = 1.0;
+error_color.red = 1.0;
+error_color.green = 0.0;
+error_color.blue = 0.17;
+error_color.alpha = 0.8;
 
-# Orange - #ff4012 - RGB 255 64 18
-debugsprite = Sprite();
-debugsprite_bottom = Sprite();
-debugsprite_medium = Sprite();
+# Font style
+message_style.font = "DINPro-Bold, Ubuntu, sans-serif 14";
+message_style.align = "center";
 
-# Ubuntu Font
-ubuntufont = "DINPro-Bold, Ubuntu, sans-serif 14";
-ubuntualignment = "center";
+status_style.font = "DINPro, Ubuntu, sans-serif 30";
+status_style.align = "center";
 
+log_style.font = "Ubuntu Mono, monospace 10";
+log_style.align = "left";
 
 # are we currently prompting for a password?
 prompt_active = 0;
 
 # General purpose function to create text
-fun WriteText (text, colour) {
-    image = Image.Text (text, colour.red, colour.green, colour.blue, color.alpha, ubuntufont, ubuntualignment);
+fun Write (text, color, style) {
+    image = Image.Text (text, color.red, color.green, color.blue, color.alpha, style.font, style.align);
     return image;
 }
 
-fun ImageToText (text) {
-    image = WriteText (text, text_colour);
+fun WriteText (text) {
+    image = Write (text, text_color, message_style);
     return image;
 }
 
-fun ImageToTintedText (text) {
-    image = WriteText (text, tinted_text_colour);
+fun WriteStatus (text) {
+    image = Write (text, text_color, status_style);
     return image;
 }
 
-fun ImageToActionText (text) {
-    image = WriteText (text, action_text_colour);
+fun WriteLog (text) {
+    image = Write (text, log_color, log_style);
     return image;
 }
 
-fun Debug(text) {
-    debugsprite.SetImage(ImageToText (text));
+fun WriteError (text) {
+    image = Write (text, error_color, log_style);
+    return image;
 }
 
-fun DebugBottom(text) {
-    debugsprite_bottom.SetImage(ImageToText (text));
-    debugsprite_bottom.SetPosition(0, (Window.GetHeight (0) - 20), 1);
-}
-
-fun DebugMedium(text) {
-    debugsprite_medium.SetImage(ImageToText (text));
-    debugsprite_medium.SetPosition(0, (Window.GetHeight (0) - 60), 1);
-}
-
-fun TextYOffset() {
-    local.y;
-    local.text_height;
-    local.min_height;
-
-    # Put the 1st line below the logo + some spacing 
-    y = logo.y + logo.height + (progress_indicator.bullet_height * 7.0 ); # + logo_spacing;
-
-    text_height = first_line_height * 7.5;
-
-    min_height = Window.GetHeight();
-    if (y + text_height > min_height)
-        y = min_height - text_height;
-
-    if (y < progress_indicator.y + progress_indicator.height)
-        return progress_indicator.y + progress_indicator.height;
-    return y;
-}
 
 #------------------------------String functions-------------------------------
 
@@ -172,11 +146,10 @@ Window.SetBackgroundBottomColor (0.00, 0.00, 0.00);  # an equally nice colour on
 
 #bits_per_pixel = Window.GetBitsPerPixel ();
 
-logo_filename = "logo_installing_software.png";
+#logo_filename = "logo_installing_software.png";
 logo_left_filename = "logo_dphys.png";
 logo_right_filename = "logo_eth.png";
 black_pixel_filename = "black_pixel.png";
-logo_org_filename = "logo_org.png";
 background_filename = "background.png";
 progress_dot_off_filename = "progress-dot-transparent.png";
 progress_dot_on_filename = "progress-dot-off.png";
@@ -205,27 +178,11 @@ panel.width = panel.image.GetWidth();
 panel.height = panel.image.GetHeight();
 panel.x = Window.GetX() + ( Window.GetWidth() - panel.width ) / 2;
 panel.y = Window.GetY() + ( Window.GetHeight() - panel.height ) / 2;
-panel.z = 10;
+panel.z = 500;
 panel.sprite.SetX (panel.x);
 panel.sprite.SetY (panel.y);
 panel.sprite.SetZ (panel.z);
 panel.sprite.SetOpacity (0.65);
-
-logo.image = Image(logo_filename);
-logo.sprite = Sprite();
-logo.sprite.SetImage(logo.image);
-logo.width = logo.image.GetWidth();
-logo.height = logo.image.GetHeight();
-logo.x = Window.GetX() + Window.GetWidth() / 2 - logo.width  / 2;
-logo.y = panel.y + panel.height / 4 - logo.height / 2;
-logo.z = 1000;
-logo.sprite.SetX(logo.x);
-logo.sprite.SetY(logo.y);
-logo.sprite.SetZ(logo.z);
-logo.sprite.SetOpacity (1);
-
-# Spacing below the logo - in pixels
-logo_spacing = logo.height * 4;
 
 logo_left.image = Image(logo_left_filename);
 logo_left.sprite = Sprite();
@@ -254,10 +211,6 @@ logo_right.sprite.SetY(logo_right.y);
 logo_right.sprite.SetZ(logo_right.z);
 logo_right.sprite.SetOpacity (0.85);
 
-message_notification[0].image = ImageToTintedText ("");
-message_notification[1].image = ImageToTintedText ("");
-fsck_notification.image = ImageToActionText ("");
-
 status = "normal";
 
 progress_indicator.bullet_off = Image (progress_dot_off_filename);
@@ -273,28 +226,63 @@ progress_indicator.y = Window.GetY() + ( Window.GetHeight() - progress_indicator
 # use a fixed string with ascending and descending stems to calibrate the
 # bounding box for the first message, so the messages below don't move up
 # and down according to *their* height.
-first_line_height = ImageToTintedText ("AfpqtM").GetHeight();
+first_line_height = WriteText ("AfpqtM").GetHeight();
+log_line_height = WriteLog ("AfpqtM").GetHeight();
 
-# if the user has a 640x480 or 800x600 display, we can't quite fit everything
-# (including passphrase prompts) with the target spacing, so scoot the text up
-# a bit if needed.
-top_of_the_text = TextYOffset();
+message_notification.image = WriteText ("");
+status_notification.image = WriteStatus ("");
+
+
+#-----------------------------------------Log functions-------------------------------
+
+# Initializing log sprites to full screen height
+screen_width = Window.GetWidth();
+screen_height = Window.GetHeight();
+log_line_spacing = 13;
+log_line_numbers = 0;
+more_lines = 1;
+i = 0;
+
+while (more_lines) {
+    log_pos_y = 10 + (i * log_line_spacing);
+    if (log_pos_y > (screen_height - log_line_spacing - 10)) {
+        more_lines = 0;
+        log_line_numbers = i;
+    }
+    else {
+        lines[i]= WriteLog("");
+        message_sprite[i] = Sprite();
+        message_sprite[i].SetPosition(10, log_pos_y, 100);
+        i++;
+    }
+}
+
+# write a log line to the bottom of the screen and shift up
+fun log(text, color) {
+   # Shift message one up
+   for (i = 0; i < log_line_numbers - 1; i++) {
+     lines[i] = lines[i+1];
+   }
+
+   # Create the image for the latest message
+   lines[i] = Write(text, color, log_style);
+
+   # Re-positioning the text images
+   for (i = 0; i < log_line_numbers; i++) {
+     message_sprite[i].SetImage(lines[i]);
+   }
+}
+
 
 #-----------------------------------------Logo functions------------------------------
 
 # Call this when updating the screen
 fun draw_logo () {
-    logo.sprite.SetX (logo.x);
-    logo.sprite.SetY (logo.y);
-    logo.sprite.SetZ (logo.z);
-    logo.sprite.SetOpacity (1);
 }
 
 
 #-----------------------------------------Progress Indicator--------------------------
 fun set_progress_indicator () {
-    
-    
     # Here we assume that we can store half bullets on each half of the screen
     # together with some spacing
     local.x = progress_indicator.x;
@@ -388,121 +376,85 @@ Plymouth.SetBootProgressFunction (animate_progress_indicator);
 
 #-----------------------------------------Label utility functions---------------------
 
-# label should be either a string or NULL
-# Images for n lines will be created and returned as items of the
-# message_label array
-#
-fun get_message_label (label, is_fake, is_action_line) {
+fun get_message_label (label, is_fake) {
     local.message_label;
     
     if (is_fake)
-        # Create a fake label so as to get the y coordinate of a standard-length label.
-        local.message_image = ImageToTintedText ("This is a fake message");
+        local.message_image = WriteText ("This is a fake message");
     else
-        local.message_image = (is_action_line) && ImageToActionText (label) || ImageToTintedText (label);
+        local.message_image = WriteText (label);
         
     message_label.width = message_image.GetWidth ();
     message_label.height = message_image.GetHeight ();
-
-    # Center the line horizontally
     message_label.x = Window.GetX () + Window.GetWidth () / 2 - message_label.width / 2;
-
-    message_label.y = top_of_the_text;
-
-    # Put the 2nd line below the fsck line
-    if (is_action_line) {
-        local.fsck_label.y = message_label.y + (first_line_height + first_line_height / 2);
-        message_label.y = local.fsck_label.y + (first_line_height * 2);
-    }
+    message_label.y = Window.GetY () + Window.GetHeight () / 2 - message_label.height / 2 + 70;
 
     return message_label;
 }
 
+fun get_status_label (label, is_fake) {
+    local.status_label;
+
+    if (is_fake)
+        status_label.image = WriteStatus ("This is a fake message");
+    else
+        status_label.image = WriteStatus (label);
+
+    status_label.width = status_label.image.GetWidth ();
+    status_label.height = status_label.image.GetHeight ();
+    status_label.x = Window.GetX () + Window.GetWidth () / 2 - status_label.width / 2;
+    status_label.y = Window.GetY () + Window.GetHeight () / 2 - status_label.height / 2 - 120;
+
+    return status_label;
+}
+
 
 #-----------------------------------------Message stuff --------------------------------
-#
 
-# Set up a message label
-#
-# NOTE: this is called when doing something like 'plymouth message "hello world"'
-#
-fun setup_message (message_text, x, y, z, index) {
-    global.message_notification[index].image = (index) && ImageToActionText (message_text) || ImageToTintedText (message_text);
-
-    # Set up the text message, if any
-    message_notification[index].x = x;
-    message_notification[index].y = y;
-    message_notification[index].z = z;
-    
-    message_notification[index].sprite = Sprite ();
-    message_notification[index].sprite.SetImage (message_notification[index].image);
-    message_notification[index].sprite.SetX (message_notification[index].x);
-    message_notification[index].sprite.SetY (message_notification[index].y);
-    message_notification[index].sprite.SetZ (message_notification[index].z);
+fun setup_message (message_text, x, y, z) {
+    global.message_notification.image = WriteText (message_text);
+    message_notification.x = x;
+    message_notification.y = y;
+    message_notification.z = z;
+    message_notification.sprite = Sprite ();
+    message_notification.sprite.SetImage (message_notification.image);
+    message_notification.sprite.SetX (message_notification.x);
+    message_notification.sprite.SetY (message_notification.y);
+    message_notification.sprite.SetZ (message_notification.z);
+    global.message_notification.sprite.SetOpacity(1)
 }
-
-fun show_message (index) {
-    if (global.message_notification[index].sprite) global.message_notification[index].sprite.SetOpacity(1);
-}
-
-fun hide_message (index) {
-    if (global.message_notification[index].sprite) global.message_notification[index].sprite.SetOpacity(0);
-}
-
 
 # the callback function is called when new message should be displayed.
-# First arg is message to display.
 fun message_callback (message)
 {
     is_fake = 0;
     if (!message || (message == "")) is_fake = 1;
     
-    local.substring = "keys:";
-    
-    # Look for the "keys:" prefix
-    local.keys = StringString(message, local.substring);
-    
-    local.is_action_line = (keys != NULL);
-
-    # Get the message without the "keys:" prefix
-    if (keys != NULL)
-        message = StringCopy (message, keys + StringLength(local.substring), NULL);
-
-    # Get the message without the "fsckd-cancel-msg" prefix as we don't support i18n
-    substring = "fsckd-cancel-msg:";
-    keys = StringString(message, substring);
-    if (keys != NULL)
-        message = StringCopy(message, keys + StringLength(substring), NULL);
-
     local.label.is_fake = is_fake;
-    label = get_message_label(message, is_fake, is_action_line);
+    label = get_message_label(message, is_fake);
     label.z = 10000;
     
-    setup_message (message, label.x, label.y, label.z, is_action_line);
-    if (prompt_active && local.is_action_line)
-        hide_message (is_action_line);
-    else
-        show_message (is_action_line);
-
+    setup_message (message, label.x, label.y, label.z);
 }
 
 Plymouth.SetMessageFunction (message_callback);
 
 
 #-----------------------------------------Update Status stuff --------------------------
-#
-# The update_status_callback is what we can use to pass plymouth whatever we want so
-# as to make use of features which are available only in this program (as opposed to
-# being available for any theme for the script plugin).
-#
-# Example:
-#
-#   Thanks to the current implementation, some scripts can call "plymouth --update=fsck:sda1:40"
-#   and this program will know that 1) we're performing and fsck check, 2) we're checking sda1,
-#   3) the program should set the label progress to 40%
-#
-# Other features can be easily added by parsing the string that we pass plymouth with "--update"
-#
+
+fun setup_status (status_text, x, y, z) {
+    global.status_notification.image = WriteStatus (status_text);
+    status_notification.x = x;
+    status_notification.y = y;
+    status_notification.z = z;
+    status_notification.sprite = Sprite ();
+    status_notification.sprite.SetImage (status_notification.image);
+    status_notification.sprite.SetX (status_notification.x);
+    status_notification.sprite.SetY (status_notification.y);
+    status_notification.sprite.SetZ (status_notification.z);
+    status_notification.sprite.SetOpacity(1);
+}
+
 fun update_status_callback (status) {
     if (!status) return;
     
@@ -511,57 +463,43 @@ fun update_status_callback (status) {
     
     for (i=0; (String(status).CharAt(i) != ""); i++) {
         local.temp_char = String(status).CharAt(i);
-        if (temp_char != ":")
+        if (temp_char != ":") {
             update_strings[string_it] += temp_char;
-        else
-            update_strings[++string_it] = "";
+        }
+        else {
+            if (string_it < 1) {
+                update_strings[++string_it] = "";
+            }
+            else {
+                update_strings[string_it] += temp_char;
+            }
+        }
     }
     
-    # Let's assume that we're dealing with these strings fsck:sda1:40
-    if ((string_it >= 2) && (update_strings[0] == "fsck")) {
-        
-        device = update_strings[1];
-        progress = update_strings[2];
-        status_string[0] = update_strings[3]; # "Checking disk %1$d of %2$d (%3$d %% complete)"
-        if (!status_string[0])
-            status_string[0] = "Checking disk %1$d of %2$d (%3$d %% complete)";
-        
-        if ((device != "") && (progress != "")) {
-            progress = StringToInteger (progress);
-        
-            # Make sure that the fsck_queue is initialised
-            if (!global.fsck_queue)
-                init_queue ();
-
-            # Make sure that the fsck counter is initialised
-            if (!global.counter)
-                init_fsck_count ();
-
-            # Keep track of the fsck check
-            fsck_check (device, progress, status_string);
-        }
-        
+    if (update_strings[0] == "log") {
+        log(update_strings[1], log_color);
     }
 
-    if (update_strings[0] == "fsckd") {
-        number_devices = StringToInteger(update_strings[1]);
-
-        if (number_devices > 0) {
-            label = update_strings[3];
-
-            progress_label = get_fsck_label (label, 0);
-            progress_label.sprite = Sprite (progress_label.image);
-            progress_label.sprite.SetPosition(progress_label.x, progress_label.y, 1);
-            progress_label.sprite.SetOpacity (1);
-        } else {
-            if (progress_label.sprite)
-                progress_label.sprite.SetOpacity (0);
-        }
+    if (update_strings[0] == "error") {
+        log(update_strings[1], error_color);
     }
 
+    if (update_strings[0] == "title") {
+        title = update_strings[1];
+        title_label = get_status_label (title, 0);
+        title_label.z = 10000;
+        setup_status (title, title_label.x, title_label.y, title_label.z);
+    }
 }
 
 Plymouth.SetUpdateStatusFunction (update_status_callback); 
+
+
+fun keyboard_input_callback(key) {
+    log("key pressed: " + key);
+}
+
+Plymouth.SetKeyboardInputFunction(keyboard_input_callback);
 
 
 #-----------------------------------------Refresh stuff --------------------------------
@@ -574,7 +512,7 @@ Plymouth.SetUpdateStatusFunction (update_status_callback);
 #
 fun refresh_callback ()
 {
-    draw_logo ();
+    #draw_logo ();
 }
 
 Plymouth.SetRefreshFunction (refresh_callback);

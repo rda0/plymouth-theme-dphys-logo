@@ -57,6 +57,9 @@ plymouth message --text="hello world"
 plymouth pause-progress 
 plymouth unpause-progress 
 plymouth message --text="resuming boot"
+plymount display-message --text="this is a test line"
+plymount update --status="title:this is the title"
+plymount update --status="log:this is a log line"
 plymouth quit
 ```
 
