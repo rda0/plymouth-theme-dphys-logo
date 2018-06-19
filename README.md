@@ -5,16 +5,16 @@
 ```
 apt install plymouth plymouth-label plymouth-theme-ubuntu-logo plymouth-theme-ubuntu-text
 cd /usr/share/plymouth/themes
-git clone git@gitlab.phys.ethz.ch:core/plymouth-theme-dphys-install.git dphys-install
+git clone git@gitlab.phys.ethz.ch:core/plymouth-theme-dphys-install-logo.git dphys-install-logo
 ```
 
 ## enable dphys theme
 
 ```
 rm /etc/alternatives/default.plymouth
-ln -s /usr/share/plymouth/themes/dphys-install/dphys-logo.plymouth /etc/alternatives/default.plymouth
+ln -s /usr/share/plymouth/themes/dphys-install-logo/dphys-install-logo.plymouth /etc/alternatives/default.plymouth
 mkdir -p /usr/share/fonts/opentype
-ln -s /usr/share/plymouth/themes/dphys-install/font/dinpro /usr/share/fonts/opentype/dinpro
+ln -s /usr/share/plymouth/themes/dphys-install-logo/font/dinpro /usr/share/fonts/opentype/dinpro
 ```
 
 ## enable ubuntu default theme

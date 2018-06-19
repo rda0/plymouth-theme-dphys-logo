@@ -4,5 +4,5 @@ Description=A theme that features a stars background with the dphys and eth logo
 ModuleName=script
 
 [script]
-ImageDir=/usr/share/plymouth/themes/dphys-install
-ScriptFile=/usr/share/plymouth/themes/dphys-install/dphys-logo.script
+ImageDir=/usr/share/plymouth/themes/dphys-install-logo
+ScriptFile=/usr/share/plymouth/themes/dphys-install-logo/dphys-install-logo.script
