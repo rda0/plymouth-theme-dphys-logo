@@ -48,7 +48,7 @@ error_color.alpha = 0.8;
 message_style.font = "DINPro-Bold, Ubuntu, sans-serif 14";
 message_style.align = "center";
 
-status_style.font = "DINPro, Ubuntu, sans-serif 30";
+status_style.font = "DINPro-Medium, Ubuntu, sans-serif 30";
 status_style.align = "center";
 
 log_style.font = "Ubuntu Mono, monospace 10";
