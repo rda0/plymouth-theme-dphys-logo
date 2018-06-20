@@ -5,16 +5,16 @@
 ```
 apt install plymouth plymouth-label plymouth-theme-ubuntu-logo plymouth-theme-ubuntu-text
 cd /usr/share/plymouth/themes
-git clone git@gitlab.phys.ethz.ch:core/plymouth-theme-dphys-install-logo.git dphys-install-logo
+git clone git@gitlab.phys.ethz.ch:core/plymouth-theme-dphys-logo.git dphys-logo
 ```
 
 ## enable dphys theme
 
 ```
 rm /etc/alternatives/default.plymouth
-ln -s /usr/share/plymouth/themes/dphys-install-logo/dphys-install-logo.plymouth /etc/alternatives/default.plymouth
+ln -s /usr/share/plymouth/themes/dphys-logo/dphys-logo.plymouth /etc/alternatives/default.plymouth
 mkdir -p /usr/share/fonts/opentype
-ln -s /usr/share/plymouth/themes/dphys-install-logo/font/dinpro /usr/share/fonts/opentype/dinpro
+ln -s /usr/share/plymouth/themes/dphys-logo/font/dinpro /usr/share/fonts/opentype/dinpro
 ```
 
 ## enable ubuntu default theme
@@ -60,6 +60,7 @@ plymouth message --text="resuming boot"
 plymount display-message --text="this is a test line"
 plymount update --status="title:this is the title"
 plymount update --status="log:this is a log line"
+plymount update --status="error:this is a error"
 plymouth quit
 ```
 
@@ -68,6 +69,7 @@ test again:
 ```
 plymouth quit; plymouthd --tty=/dev/tty1 --debug-file=/root/plymouthd.log; plymouth show-splash
 for p in `seq 0 100`; do plymouth message --text="${p}% done"; sleep 0.2; done
+for i in $(seq 0 200); do plymouth update --status="log:printing log line number $i";done
 ```
 
 kill daemon:
