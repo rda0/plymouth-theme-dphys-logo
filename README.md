@@ -11,10 +11,16 @@ git clone git@gitlab.phys.ethz.ch:core/plymouth-theme-dphys-logo.git dphys-logo
 ## enable dphys theme
 
 ```
+/usr/bin/update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth \
+/usr/share/plymouth/themes/dphys-logo/dphys-logo.plymouth 100
+/usr/bin/update-alternatives --set default.plymouth /usr/share/plymouth/themes/dphys-logo/dphys-logo.plymouth
+```
+
+or:
+
+```
 rm /etc/alternatives/default.plymouth
 ln -s /usr/share/plymouth/themes/dphys-logo/dphys-logo.plymouth /etc/alternatives/default.plymouth
-mkdir -p /usr/share/fonts/opentype
-ln -s /usr/share/plymouth/themes/dphys-logo/font/dinpro /usr/share/fonts/opentype/dinpro
 ```
 
 ## enable ubuntu default theme
