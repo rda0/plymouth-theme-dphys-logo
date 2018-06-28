@@ -1,11 +1,11 @@
-# plymouth splash install screen
+# plymouth splash screen
 
 ## installation
 
 ```
 apt install plymouth plymouth-label plymouth-theme-ubuntu-logo plymouth-theme-ubuntu-text
 cd /usr/share/plymouth/themes
-git clone git@gitlab.phys.ethz.ch:core/plymouth-theme-dphys-logo.git dphys-logo
+git clone git@github.com:rda0/plymouth-theme-dphys-logo.git dphys-logo
 ```
 
 ## enable dphys theme
