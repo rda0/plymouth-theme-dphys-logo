@@ -45,10 +45,10 @@ error_color.blue = 0.17;
 error_color.alpha = 0.8;
 
 # Font style
-message_style.font = "DINPro-Bold, Ubuntu, sans-serif 14";
+message_style.font = "DINPro-Bold, Rubik Medium, Ubuntu, sans-serif 14";
 message_style.align = "center";
 
-status_style.font = "DINPro-Medium, Ubuntu, sans-serif 30";
+status_style.font = "DINPro-Medium, Rubik, Ubuntu, sans-serif 30";
 status_style.align = "center";
 
 log_style.font = "Ubuntu Mono, monospace 10";
